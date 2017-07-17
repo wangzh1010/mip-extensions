@@ -39,7 +39,7 @@ define(function (require) {
     }
 
     /**
-     * 全角转半角 
+     * 全角转半角
      */
     function c2h(str) {
         var result = "";
@@ -56,24 +56,21 @@ define(function (require) {
 
     /**
      * ajax请求获取页面跳转地址
-     * @param {*} key 
-     * @param {*} type 
+     * @param {*} key
+     * @param {*} type
      */
     function ajaxRequest(key, type) {
-        $.ajax({
-            type: "POST",
-            url: "/common/search.php",
-            data: "key=" + key + "&" + "entType=" + type,
-            async: true,
-            dataType: "json",
-            timeout: "5000",
-            success: function (msg) {
-                window.location.href = msg.url;
-            },
-            error: function () {
-                alert("当前访问用户较多，请稍后重试。");
-            }
-        })
+        fetch('/common/search.php',{
+            method:'POST',
+            body:'key=' + key + '&entType=' + type,
+            credentials:'include'
+        }).then(function(response){
+            return response.json();
+        }).then(function(response){
+            window.location.href = response.url;
+        }).catch(function(e){
+            alert("当前访问用户较多，请稍后重试。");
+        });
     }
 
     return customElement;

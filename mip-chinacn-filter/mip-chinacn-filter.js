@@ -104,13 +104,17 @@ define(function (require) {
                 }
             }
 
-            $.post('//' + document.domain + '/common/search.php', data, function (json) {
-                if (json.url) {
-                    window.location.href = json.url;
-                } else {
-                    alert("当前访问用户较多，请稍后重试。");
-                }
-            })
+            fetch('//' + document.domain + '/common/search.php',{
+                method:'POST',
+                body:JSON.stringify(data),
+                credentials:'include'
+            }).then(function(response){
+                return response.json();
+            }).then(function(response){
+                window.location.href = response.url;
+            }).catch(function(e){
+                alert("当前访问用户较多，请稍后重试。");
+            });
         }
 
         function hide(){
