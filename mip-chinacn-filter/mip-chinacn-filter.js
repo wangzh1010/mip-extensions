@@ -17,6 +17,8 @@ define(function (require) {
         var $mask = $('.opacity-layer');
         $element.find('.screen-conditions').on('click','li',function(){
             var $this = $(this);
+            $this.siblings('.current').removeClass('current');
+            $this.addClass('current');
             $this.siblings().find('div.current').removeClass('current');
             $this.find('.screen-box').addClass('current');
             $mask.addClass(maskClass);
@@ -53,29 +55,29 @@ define(function (require) {
             var $this = $(me);
             var data = {};
 
-            /* 1.获取隐藏域中的关键词 */
+             // 1.获取隐藏域中的关键词
             var oKey = $('#site_key').val();
 
-            /* 获取输入框中的关键词 */
+             // 获取输入框中的关键词
             var key = $('#site_search').val();
             var area = $('#site_area').val();
             var entType = $('#site_entType').val();
             var category = $('#site_category').val();
 
-            /* 输入搜索 */
+             // 输入搜索
             if ($this.hasClass('search')) {
                 data.key = key;
                 data.entType = 4;
             } else {
-                /* 条件筛选搜索 */
+                 // 条件筛选搜索
 
-                /* 获取筛选条件 */
+                 // 获取筛选条件
                 var $conditions = $element.find('.screen-box').find('span.current');
                 $conditions.each(function () {
                     var $this = $(this);
-                    /* 获取筛选项类型 */
+                     // 获取筛选项类型
                     var type = $this.attr('d-g');
-                    /* 获取筛选项id */
+                     // 获取筛选项id
                     var id = $this.attr('d-d');
                     if(data[type]){
                         data[type] = data[type] + ',' + id;
@@ -120,6 +122,7 @@ define(function (require) {
         function hide(){
             $mask.removeClass(maskClass);
             $element.find('.screen-box').removeClass('current');
+            $element.find('li.current').removeClass('current');;
         }
     };
 
