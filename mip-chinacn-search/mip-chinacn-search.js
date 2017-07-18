@@ -31,20 +31,18 @@ define(function (require) {
         zkey = c2h($.trim(zkey));
         zkey = zkey.replace(/[\\\/\#\?\$\&\=\>\<\-]/g, ' ');//需过滤的字符
         var ztype = $('#ztype').val();
-        if (zkey == '') {
+        if (zkey === '') {
             $this.focus();
             return false;
         };
         ajaxRequest(zkey, ztype);
     }
 
-    /**
-     * 全角转半角
-     */
+    // 全角转半角
     function c2h(str) {
         var result = "";
         for (var i = 0; i < str.length; i++) {
-            if (str.charCodeAt(i) == 12288) {
+            if (str.charCodeAt(i) === 12288) {
                 result += String.fromCharCode(str.charCodeAt(i) - 12256);
                 continue;
             }
@@ -54,11 +52,7 @@ define(function (require) {
         return result;
     };
 
-    /**
-     * ajax请求获取页面跳转地址
-     * @param {*} key
-     * @param {*} type
-     */
+    // ajax请求获取页面跳转地址
     function ajaxRequest(key, type) {
         fetch('/common/search.php',{
             method:'POST',
