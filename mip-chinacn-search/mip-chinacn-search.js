@@ -7,6 +7,8 @@ define(function (require) {
 
     var customElement = require('customElement').create();
     var $ = require('zepto');
+    var Cookie = require('./cookie/js.cookie.min');
+    var md5 = require('./md5/md5.min');
     /**
      * 构造元素，只会运行一次
      */
@@ -29,7 +31,7 @@ define(function (require) {
     function forSearch($this) {
         var zkey = $this.val();
         zkey = c2h($.trim(zkey));
-        zkey = zkey.replace(/[\\\/\#\?\$\&\=\>\<\-]/g, ' ');//需过滤的字符
+        zkey = zkey.replace(/[\\\/\#\?\$\&\=\>\<\-]/g, ' '); //需过滤的字符
         var ztype = $('#ztype').val();
         if (zkey === '') {
             $this.focus();
@@ -54,18 +56,27 @@ define(function (require) {
 
     // ajax请求获取页面跳转地址
     function ajaxRequest(key, type) {
-        fetch('/common/search.php',{
-            method:'POST',
-            body:'key=' + key + '&entType=' + type,
-            credentials:'include'
-        }).then(function(response){
+        saveCookie();
+        var formData = new FormData();
+        formData.append('key', key);
+        formData.append('entType', type);
+        fetch('/common/search.php', {
+            method: 'POST',
+            body: formData,
+            credentials: 'include'
+        }).then(function (response) {
             return response.json();
-        }).then(function(response){
+        }).then(function (response) {
             window.location.href = response.url;
-        }).catch(function(e){
+        }).catch(function (e) {
             alert("当前访问用户较多，请稍后重试。");
         });
     }
 
+    function saveCookie() {
+        var url = location.href;
+        Cookie.set('search-token', md5(url), { 'expires': 1, 'path': '/', 'domain': 'china.cn' });
+    }
+    
     return customElement;
 });

@@ -15,7 +15,7 @@ mip-chinacn-search 搜索
 <mip-chinacn-search>
     <form action="">
         <input data-role="searchKey" type="search" class="txt" placeholder="请输入关键词"/>
-        <span data-role="searchIcon" class="search search-btn"></span>
+        <span data-role="searchIcon" class="search search-btn">搜索</span>
         <input type="hidden" name="t" id="ztype"/>
     </form>
 </mip-chinacn-search>
